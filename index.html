@@ -26,6 +26,9 @@
                 const videoId = item.id.videoId;
                 const videoTitle = item.snippet.title;
                 const videoThumbnail = item.snippet.thumbnails.default.url;
+                const description = item.snippet.description;
+                const channelTitle = item.snippet.channelTitle;
+                const thumbnailUrl = item.snippet.thumbnails.medium.url;
 
                 // 各動画の詳細情報を取得
                 const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
@@ -38,8 +41,10 @@
                         const videoItem = document.createElement("div");
                         videoItem.innerHTML = `
                             <h2>${videoTitle}</h2>
+                            <p>チャンネル: <a>${channelTitle}</a></p>
                             <p>視聴回数: ${viewCount}</p>
                             <p>高評価数: ${likeCount}</p>
+                            <p>説明: ${description}</p>
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
                         `;
 
