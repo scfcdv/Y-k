@@ -5,7 +5,7 @@
 </head>
 <body>
 <input type="text" id="searchTerm" placeholder="検索キーワード">
-<button onclick="searchVideos()">検索</button>  
+<button onclick="searchVideos()">検索</button><button type="button" onclick="ss()">hyouji</button>
 <div id="videoList">
 </div>
     <script>
@@ -58,5 +58,9 @@
 }
 
     </script>
+    <script>
+    function ss(){
+        window.open("https://www.youtube.com/embed/${videoId}");
+}    </script>
 </body>
 </html>
