@@ -1,0 +1,56 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="https://scfcdv.github.io/homeweb2/favicon.ico">
+<title>YouTube検索</title>
+</head>
+<body>
+<input type="text" id="searchTerm" placeholder="検索キーワード">
+<button onclick="searchVideos()">検索</button>  
+<div id="videoList">
+</div>
+    <script>
+            const apiKey = "AIzaSyDRu17U62sEsuamdZIOmkSyjiMQsnXZ_rs"; // 自分のAPIキーを設定
+            function searchVideos() {
+    const searchTerm = document.getElementById("searchTerm").value;
+    const maxResults = 30; // 表示する動画の最大数
+
+    // YouTube Data APIのエンドポイント
+    const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&q=${searchTerm}&key=${apiKey}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const videoList = document.getElementById("videoList");
+            videoList.innerHTML = ""; // 動画リストをクリア
+
+            data.items.forEach(item => {
+                const videoId = item.id.videoId;
+                const videoTitle = item.snippet.title;
+                const videoThumbnail = item.snippet.thumbnails.default.url;
+
+                // 各動画の詳細情報を取得
+                const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
+                fetch(videoDetailsUrl)
+                    .then(response => response.json())
+                    .then(details => {
+                        const viewCount = details.items[0].statistics.viewCount;
+                        const likeCount = details.items[0].statistics.likeCount;
+
+                        const videoItem = document.createElement("div");
+                        videoItem.innerHTML = `
+                            <h2>${videoTitle}</h2>
+                            <p>視聴回数: ${viewCount}</p>
+                            <p>高評価数: ${likeCount}</p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+                        `;
+
+                        videoList.appendChild(videoItem);
+                    })
+                    .catch(error => console.error("詳細情報の取得中にエラーが発生しました: ", error));
+            });
+        })
+        .catch(error => console.error("エラーが発生しました: ", error));
+}
+
+    </script>
+</body>
+</html>
