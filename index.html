@@ -5,7 +5,7 @@
 </head>
 <body>
 <input type="text" id="searchTerm" placeholder="検索キーワード">
-<button onclick="searchVideos()">検索</button><button type="button" onclick="ss()">hyouji</button>
+<button onclick="searchVideos()">検索</button>
 <div id="videoList">
 </div>
     <script>
@@ -41,7 +41,7 @@
 
                         const videoItem = document.createElement("div");
                         videoItem.innerHTML = `
-                            <h2>${videoTitle}</h2>
+                            <h2>${videoTitle}</h2><button type="button" onclick="javascript:window.open("https://www.youtube.com/embed/${videoId}");">atarasiitabu</button>
                             <p>チャンネル: <a>${channelTitle}</a></p>
                             <p>視聴回数: ${viewCount}</p>
                             <p>高評価数: ${likeCount}</p>
@@ -58,9 +58,5 @@
 }
 
     </script>
-    <script>
-    function ss(){
-        window.open("https://www.youtube.com/embed/${videoId}");
-}    </script>
 </body>
 </html>
