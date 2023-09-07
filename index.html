@@ -5,14 +5,14 @@
 </head>
 <body>
 <input type="text" id="searchTerm" placeholder="検索キーワード">
-<button onclick="searchVideos()">検索</button>
+<button onclick="searchVideos()">検索</button><input type="number" id="base">
 <div id="videoList">
 </div>
     <script>
             const apiKey = "AIzaSyDRu17U62sEsuamdZIOmkSyjiMQsnXZ_rs"; // 自分のAPIキーを設定
             function searchVideos() {
     const searchTerm = document.getElementById("searchTerm").value;
-    const maxResults = 15; // 表示する動画の最大数
+    var maxResults = document.getElementById("base").value;
 
     // YouTube Data APIのエンドポイント
     const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&q=${searchTerm}&key=${apiKey}`;
