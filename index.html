@@ -11,7 +11,7 @@
             const apiKey = "AIzaSyDIiV_2BdLkFOkoILineb-SIxqsiTDQgS4"; // 自分のAPIキーを設定
             function searchVideos() {
     const searchTerm = document.getElementById("searchTerm").value;
-    const maxResults = 15;
+    const maxResults = 20;
 
     // YouTube Data APIのエンドポイント
     const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&q=${searchTerm}&key=${apiKey}`;
@@ -41,6 +41,7 @@
                         const videoItem = document.createElement("div");
                         videoItem.innerHTML = `
                             <h2>${videoTitle}</h2>
+                            <p>新しいタブで開く<a href="https://www.youtube.com/embed/${videoId}" target="_blank"></a></p>
                             <p>チャンネル: <a>${channelTitle}</a></p>
                             <p>視聴回数: ${viewCount}</p>
                             <p>高評価数: ${likeCount}</p>
