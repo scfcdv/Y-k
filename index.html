@@ -12,8 +12,7 @@
             const apiKey = "AIzaSyDRu17U62sEsuamdZIOmkSyjiMQsnXZ_rs"; // 自分のAPIキーを設定
             function searchVideos() {
     const searchTerm = document.getElementById("searchTerm").value;
-    var maxResults = 15;
-    var maxResults = document.getElementById("base").value;
+    const maxResults = document.getElementById("base").value;
 
     // YouTube Data APIのエンドポイント
     const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&q=${searchTerm}&key=${apiKey}`;
