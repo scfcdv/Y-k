@@ -1,27 +1,88 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="https://scfcdv.github.io/homeweb2/favicon.ico">
 <title>YouTube検索</title>
-</head>
-<body>
-<input type="text" id="searchTerm" placeholder="検索キーワード">動画表示本数:<input type="number" id="bafse">
-<button onclick="searchVideos()">検索</button>
+API Keyを選択は1で動画が表示されなくなったら2にしてください。<a href="https://scfcdv.github.io/syousai/" target="_blank">詳細</a><br>
+<input type="text" id="searchTerm" placeholder="検索キーワード"> 動画表示本数:<input type="number" id="bafse">
+<label for="apiKeySelector"> API Keyを選択:</label>
+<select id="apiKeySelector">
+    <option value="api_key_1">1</option>
+    <option value="api_key_2">2</option>
+    <option value="api_key_3">3</option>
+    <option value="api_key_4">4</option>
+    <option value="api_key_5">5</option>
+    <option value="api_key_6">6</option>
+    <option value="api_key_7">7</option>
+    <option value="api_key_8">8</option>
+    <option value="api_key_9">9</option>
+    <option value="api_key_10">10</option>
+</select> <button onclick="searchVideos()">検索</button>
 <div id="videoList">
 </div>
     <script>
-            const apiKey = "AIzaSyDIiV_2BdLkFOkoILineb-SIxqsiTDQgS4"; // 自分のAPIキーを設定
-            function searchVideos() {
+        function searchVideos() {
+            // 選択されたAPIキーを取得
+            var apiKeySelector = document.getElementById("apiKeySelector");
+            var selectedApiKey = apiKeySelector.value;
+
+            // 選択されたAPIキーに応じてapikeyを変更
+            switch (selectedApiKey) {
+                case "api_key_1":
+                    apiKey = "AIzaSyDIiV_2BdLkFOkoILineb-SIxqsiTDQgS4";
+                    break;
+                case "api_key_2":
+                    apiKey = "AIzaSyC4Kk4OZ5a2jml6zxN01NfVUauYvF5nbxg";
+                    break;
+                case "api_key_3":
+                    apiKey = "AIzaSyBL3JHDYH_36QjEmRxpkQ1jmDFnohFTjbI";
+                    break;
+                    case "api_key_4":
+                    apiKey = "AIzaSyAD3j1bYWOimd1SE2JbVo7vvqsVomLcc44";
+                    break;
+                    case "api_key_5":
+                    apiKey = "AIzaSyDQNyApBt9ilQsYdHG9IGlckZgFjaPtoNA";
+                    break;
+                    case "api_key_6":
+                    apiKey = "AIzaSyDDfm_RkRVvKT80xKxYuCyfGQvkpNuouG8";
+                    break;
+                    case "api_key_7":
+                    apiKey = "AIzaSyBs-w371nZnvqFfv_L--CdColGG1Ro-F5U";
+                    break;
+                    case "api_key_8":
+                    apiKey = "AIzaSyAM5FYyjy16hN7OoQ9qoqgrU0L3VCjOWH4";
+                    break;
+                    case "api_key_9":
+                    apiKey = "AIzaSyD6BIFAJTeleaYy6OnzSvK1hWA-bSpcilw";
+                    break;
+                    case "api_key_10":
+                    apiKey = "AIzaSyDTFQbG-3GriRafc4V23V5rybT2EFJmVNI";
+                    break;
+
+                default:
+                    apiKey = "AIzaSyDIiV_2BdLkFOkoILineb-SIxqsiTDQgS4";
+                    break;
+            }
+
+            function sleep(waitMsec) {
+  var startMsec = new Date();
+
+  // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+  while (new Date() - startMsec < waitMsec);
+}
+
+sleep(1000);
+            searchVideos2();
+        }
+    </script>
+<script>
+var apiKey = "AIzaSyAM5FYyjy16hN7OoQ9qoqgrU0L3VCjOWH4";
+function searchVideos2() {
     const searchTerm = document.getElementById("searchTerm").value;
-    var maxResults = document.getElementById("bafse").value;
-
-    // YouTube Data APIのエンドポイント
+    const maxResults = document.getElementById("bafse").value;
     const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&q=${searchTerm}&key=${apiKey}`;
-
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             const videoList = document.getElementById("videoList");
             videoList.innerHTML = ""; // 動画リストをクリア
-
             data.items.forEach(item => {
                 const videoId = item.id.videoId;
                 const videoTitle = item.snippet.title;
@@ -29,34 +90,25 @@
                 const description = item.snippet.description;
                 const channelTitle = item.snippet.channelTitle;
                 const thumbnailUrl = item.snippet.thumbnails.medium.url;
-
-                // 各動画の詳細情報を取得
-                const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
+                const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`
                 fetch(videoDetailsUrl)
                     .then(response => response.json())
                     .then(details => {
                         const viewCount = details.items[0].statistics.viewCount;
                         const likeCount = details.items[0].statistics.likeCount;
-
                         const videoItem = document.createElement("div");
                         videoItem.innerHTML = `
                             <h2>${videoTitle}</h2>
+                            <p id="comments"></p>
                             <p><a href="https://www.youtube.com/embed/${videoId}" target="_blank">新しいタブで開く</a></p>
+                            <p><a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">youtubeで開く</a></p>
                             <p>チャンネル: <a>${channelTitle}</a></p>
                             <p>視聴回数: ${viewCount}</p>
                             <p>高評価数: ${likeCount}</p>
                             <p>説明: ${description}</p>
                             <iframe width="560" height="320" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
                         `;
-
-                        videoList.appendChild(videoItem);
-                    })
-                    .catch(error => console.error("詳細情報の取得中にエラーが発生しました: ", error));
-            });
-        })
-        .catch(error => console.error("エラーが発生しました: ", error));
-}
-
-    </script>
-</body>
-</html>
+                        videoList.appendChild(videoItem);})
+                    .catch(error => console.error("詳細情報の取得中にエラーが発生しました: ", error));});})
+        .catch(error => console.error("エラーが発生しました: ", error));}
+</script>
